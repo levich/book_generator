@@ -96,6 +96,8 @@ class WriterChain(BaseEventChain):
 
 def write_book(genre, style, profile, title, framework, summaries_dict, idea_dict):
 
+    
+
     writer_chain = WriterChain()
     previous_ideas = []
     book = {}
