@@ -123,5 +123,10 @@ def write_book(genre, style, profile, title, framework, summaries_dict, idea_dic
 
             previous_ideas.append(idea)
             book[chapter].append(paragraphs)
-
+    
+    book["framework"]=framework
+    for chapter, idea_list in idea_dict.items():
+        book[chapter + " ideas"]=idea_list
+        book[chapter + " summaries"]=summaries_dict[chapter]
+    
     return book

@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
-
+import os
 load_dotenv()
 
 MODEL="gemma3:12b"
+MODEL=os.getenv("MODEL")
+
 from structure import get_structure
 from ideas import get_ideas
 from writing import write_book
@@ -61,8 +63,9 @@ style = "Практическое руководство-Компьютерны�
 
 genre = "Non-fiction: Philosophy of Technology/Science"
 genre = "Научная литература: Искусственный интеллект и машинное обучение"
-
+print(MODEL)
 doc_writer = DocWriter()
+
 
 title, framework, chapter_dict = get_structure(subject, genre, style, profile)
 summaries_dict, idea_dict = get_ideas(

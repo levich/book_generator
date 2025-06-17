@@ -12,7 +12,7 @@ class DocWriter:
 
         for chapter, paragraphs_list in book.items():
 
-            description = chapter_dict[chapter]
+            description = chapter_dict[chapter] if chapter in chapter_dict else " "
             chapter_name = "{}: {}".format(chapter.strip(), description.strip())
 
             self.doc.add_page_break()
