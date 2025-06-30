@@ -1,4 +1,3 @@
-import yaml
+from config import settings
 
-t = yaml.load(open("sample.yaml", "r"), Loader=yaml.CLoader)
-print(t)
+print(settings['test'])
