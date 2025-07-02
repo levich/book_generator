@@ -1,6 +1,7 @@
 from utils import BaseStructureChain,  ChatOllama
 import os
-MODEL=os.getenv("MODEL")
+from config import settings
+MODEL=settings["model"]
 
 class TitleChain(BaseStructureChain):
     # PROMPT = """
@@ -18,20 +19,7 @@ class TitleChain(BaseStructureChain):
 
     # Title:"""
 
-    PROMPT = """
-    Ваша задача - придумать подходящее название для книги на указанную тему.
-    Пожалуйста, укажите название, и только название!
-    Название должно соответствовать тематике книги.
-    Название должно соответствовать жанру книги.
-    Название должно соответствовать стилю книги.
-
-    Тема книги: {subject}
-    Жанр книги: {genre}
-    Стиль: {style}
-
-    Описание книги: {profile}
-
-    Название:"""
+    PROMPT = settings["title.prompt"]
 
     def run(self, subject, genre, style, profile):
         return self.chain.predict(
@@ -208,6 +196,7 @@ def get_structure(subject, genre, style, profile):
     chapters_chain = ChaptersChain()
 
     title = title_chain.run(subject, genre, style, profile)
+    print(title)
     framework = framework_chain.run(subject, genre, style, profile, title)
     chapter_dict = chapters_chain.run(subject, genre, style, profile, title, framework)
 
