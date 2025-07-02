@@ -1,20 +1,9 @@
 from collections import OrderedDict
-from dotenv import load_dotenv
-import os
-from yaml import load, dump,safe_dump
-try:
-    from yaml import CLoader as Loader, CDumper as Dumper
-except ImportError:
-    from yaml import Loader, Dumper
-from ruamel.yaml import YAML
-
-load_dotenv()
+import toml
 
 from config import settings
 
-print(settings['model'])
 
-# MODEL="gemma3:12b"
 MODEL=settings['model']
 
 from structure import get_structure
@@ -25,20 +14,14 @@ from publishing import DocWriter
 
 
 subject = settings['subject']
-
-
-
 profile = settings['profile']
-
-
 style = settings['style']
-
 genre = settings["genre"]
 
 print(MODEL)
 doc_writer = DocWriter()
 
-
+#создание структуры и содержания книги
 title, framework, chapter_dict = get_structure(subject, genre, style, profile)
 outdict = {}
 outdict["title"]=title
@@ -50,21 +33,12 @@ outdict["framework"]=framework
 outdict["chapters"]=chapter_dict
 
 
+filename = settings["outfile"] if settings["outfile"] != "" else "out.toml"
 
+with open(filename,"w",encoding="utf-8") as f:
+    toml.dump(outdict,f)
 
-
-
-yaml = YAML(typ='unsafe', pure=True)
-
-
-yaml.default_style="|"
-yaml.allow_unicode=True
-
-with open("out.yaml","w") as f:
-    #dump_str = safe_dump(outdict,f, allow_unicode=True,default_style='|')
-    yaml.dump(outdict,f)
-
-
+#Создание суммарной информации по главам и списка идей для глав
 summaries_dict, idea_dict = get_ideas(
     subject, genre, style, profile, title, framework, chapter_dict
 )
@@ -73,10 +47,17 @@ summaries_dict, idea_dict = get_ideas(
 outdict["summaries"]=summaries_dict
 outdict["ideas"]=idea_dict
 
-with open("out.yaml","w") as f:
-    #dump_str = safe_dump(outdict,f, allow_unicode=True,default_style='|')
-    yaml.dump(outdict,f)
+with open(filename,"w",encoding="utf-8") as f:
+    toml.dump(outdict,f)
 
-book = write_book(genre, style, profile, title, framework, summaries_dict, idea_dict)
+if settings["write_text"]:
+    book = write_book(genre, style, profile, title, framework, summaries_dict, idea_dict)
 
-doc_writer.write_doc(book, chapter_dict, title)
+    outdict["book"]=book
+    with open(filename,"w",encoding="utf-8") as f:
+        toml.dump(outdict,f)
+
+    doc_writer.write_doc(book, chapter_dict, title)
+
+
+doc_writer.write_structure(title,chapter_dict,summaries_dict,idea_dict)

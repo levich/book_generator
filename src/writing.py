@@ -1,39 +1,9 @@
 from utils import BaseEventChain
-
+from config import settings
 
 class WriterChain(BaseEventChain):
 
-  
-    
-    PROMPT = """
-    Вы научно-популярный писатель. Описание книги представлено в виде списка идей. 
-    Вы уже написали книгу до последней идеи. 
-    Ваша задача - создать абзацы книги, посвященные новой идее.
-    Вам будут предоставлены название, структура книги, описание книги и структура текущей главы.
-    Убедитесь, что абзацы соответствуют структуре главы.
-    Кроме того, вам будет предоставлен список идей, о которых вы уже писали.
-    Абзацы должны соответствовать жанру книги.
-    Абзацы должны соответствовать стилю книги.
-
-    Жанр: {genre}
-    Стиль: {style}
-    Описание книги: {profile}
-    Название: {title}
-    Структура книги: {framework}
-
-    Предыдущие идеи: {previous_ideas}
-    Краткое содержание текущей главы: {summary}
-    Предыдущие абзацы: {previous_paragraphs}
-    
-    Новая идея, о которой вам нужно написать прямо сейчас: {current_idea}
-    
-    Вы являетесь автором и пишете абзацы так, как если бы они были частью книги.
-    Идея должна быть подкреплена вескими аргументами, проиллюстрирована наглядными примерами и написана простым языком, понятным для читателя. 
-    Убедитесь, что каждое предложение в каждом абзаце закончено! НЕ оставляйте ни один абзац незаконченным!
-    Убедитесь, что в каждом абзаце более 6 строк!  
-    НЕ ссылайтесь на автора или главы в параграфах!
-    Пишите только те параграфы, которые связаны с этой идеей, с необходимыми аргументами, примерами и соответствующими фактами.
-    Параграфы книги, описывающие эту идею:"""
+    PROMPT = settings["writing.prompt"]
 
     def run(
         self,
@@ -65,8 +35,6 @@ class WriterChain(BaseEventChain):
 
 def write_book(genre, style, profile, title, framework, summaries_dict, idea_dict):
 
-    
-
     writer_chain = WriterChain()
     previous_ideas = []
     book = {}
@@ -92,10 +60,10 @@ def write_book(genre, style, profile, title, framework, summaries_dict, idea_dic
 
             previous_ideas.append(idea)
             book[chapter].append(paragraphs)
-    
-    book["framework"]=framework
+
+    book["framework"] = framework
     for chapter, idea_list in idea_dict.items():
-        book[chapter + " ideas"]=idea_list
-        book[chapter + " summaries"]=summaries_dict[chapter]
-    
+        book[chapter + " ideas"] = idea_list
+        book[chapter + " summaries"] = summaries_dict[chapter]
+
     return book
