@@ -1,5 +1,6 @@
 import docx
 from config import settings
+from markdowntodocx.markdownconverter import convertMarkdownInFile
 
 class DocWriter:
 
@@ -23,6 +24,7 @@ class DocWriter:
 
         outf = settings["outdoc"] if settings["outdoc"]!="" else "book.docx"
         self.doc.save(f"./docs/{outf}")
+        convertMarkdownInFile(f"./docs/{outf}", f"./docs/{outf}")
     
     def write_structure(self, title, chapter_dict, summaries_dict, ideas_dict):
         self.doc_i = docx.Document()
@@ -39,6 +41,7 @@ class DocWriter:
 
         outf = settings["outdoc_ideas"] if settings["outdoc_ideas"]!="" else "book_ideas.docx"
         self.doc_i.save(f"./docs/{outf}")
+        convertMarkdownInFile(f"./docs/{outf}", f"./docs/{outf}")
 
                                    
 
