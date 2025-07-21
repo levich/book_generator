@@ -4,8 +4,11 @@ from markdowntodocx.markdownconverter import convertMarkdownInFile
 
 class DocWriter:
 
-    def __init__(self) -> None:
+    def __init__(self,sett) -> None:
         self.doc = docx.Document()
+        settings=settings
+
+
 
     def write_doc(self, book, chapter_dict, title):
 

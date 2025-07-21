@@ -11,8 +11,7 @@ from publishing import DocWriter
 
 for b in range(1,10):
 
-    global book
-    book = b
+
     settings = Dynaconf(
         envvar_prefix="DYNACONF",
         settings_files=['base.toml',f'settings.{b}.toml', '.secrets.toml'],
@@ -32,10 +31,10 @@ for b in range(1,10):
     genre = settings["genre"]
 
     print(MODEL)
-    doc_writer = DocWriter()
+    doc_writer = DocWriter(settings)
 
     #создание структуры и содержания книги
-    title, framework, chapter_dict = get_structure(subject, genre, style, profile)
+    title, framework, chapter_dict = get_structure(settings,subject, genre, style, profile)
     outdict = {}
     outdict["title"]=title
     outdict["style"]=style
@@ -53,7 +52,7 @@ for b in range(1,10):
 
     #Создание суммарной информации по главам и списка идей для глав
     summaries_dict, idea_dict = get_ideas(
-        subject, genre, style, profile, title, framework, chapter_dict
+        settings, subject, genre, style, profile, title, framework, chapter_dict
     )
 
 
@@ -64,7 +63,7 @@ for b in range(1,10):
         toml.dump(outdict,f)
 
     if settings["write_text"]:
-        book = write_book(genre, style, profile, title, framework, summaries_dict, idea_dict)
+        book = write_book(settings, genre, style, profile, title, framework, summaries_dict, idea_dict)
 
         outdict["book"]=book
         with open(filename,"w",encoding="utf-8") as f:
