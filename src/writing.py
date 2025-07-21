@@ -33,10 +33,9 @@ class WriterChain(BaseEventChain):
         )
 
 
-def write_book(sett, genre, style, profile, title, framework, summaries_dict, idea_dict):
-    global settings
-    settings=sett
+def write_book( genre, style, profile, title, framework, summaries_dict, idea_dict):
     
+    print(settings['outfile'])
     writer_chain = WriterChain()
     previous_ideas = []
     book = {}

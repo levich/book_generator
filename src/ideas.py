@@ -90,13 +90,12 @@ class IdeasChain(BaseEventChain):
         return idea_list
 
 
-def get_ideas(sett, subject, genre, style, profile, title, framework, chapter_dict):
-    global settings
-    settings=sett
+def get_ideas( subject, genre, style, profile, title, framework, chapter_dict):
     chapter_framework_chain = ChapterFrameworkChain()
     ideas_chain = IdeasChain()
     summaries_dict = {}
     idea_dict = {}
+    print(settings['outfile'])
 
     if settings["chapters_summary.load_chapters_summary"]:
         summaries_dict=settings["summaries_list"]

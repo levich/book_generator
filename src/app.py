@@ -2,6 +2,7 @@ from collections import OrderedDict
 import toml
 
 from config import settings
+from dynaconf import Dynaconf
 
 
 MODEL=settings['model']
@@ -11,14 +12,12 @@ from ideas import get_ideas
 from writing import write_book
 from publishing import DocWriter
 
-
-
 subject = settings['subject']
 profile = settings['profile']
 style = settings['style']
 genre = settings["genre"]
 
-print(MODEL)
+print(settings['outfile'])
 doc_writer = DocWriter()
 
 #создание структуры и содержания книги

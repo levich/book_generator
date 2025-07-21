@@ -69,13 +69,11 @@ class ChaptersChain(BaseStructureChain):
         return chapter_dict
 
 
-def get_structure(sett,subject, genre, style, profile):
-    global settings
-    settings = sett
+def get_structure(subject, genre, style, profile):
     title_chain = TitleChain()
     framework_chain = FrameworkChain()
     chapters_chain = ChaptersChain()
-
+    print(settings['outfile'])
     if settings["title.load_title"]:
         title=settings["title.title"]
     else:
