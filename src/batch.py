@@ -7,9 +7,12 @@ from ideas import get_ideas
 from writing import write_book
 from publishing import DocWriter
 
+
+
 for b in range(1,10):
 
-
+    global book
+    book = b
     settings = Dynaconf(
         envvar_prefix="DYNACONF",
         settings_files=['base.toml',f'settings.{b}.toml', '.secrets.toml'],
