@@ -1,9 +1,4 @@
-# настройки подключения, модели и выходных файлов
-baseurl="http://172.26.24.195:11434/"
 
-model="gemma3:12b"
-
-debug=true
 
 outfile = "book_4_out.toml"
 outdoc = "book_4.docx"

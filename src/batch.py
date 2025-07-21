@@ -12,7 +12,7 @@ for b in range(1,10):
 
     settings = Dynaconf(
         envvar_prefix="DYNACONF",
-        settings_files=[f'settings.{b}.toml', '.secrets.toml'],
+        settings_files=['base.toml',f'settings.{b}.toml', '.secrets.toml'],
     )
 
     print(f"START PRODUCING BOOK {b}")
